@@ -1,34 +1,48 @@
 package kz.iitu.springlab.config;
 
 import kz.iitu.springlab.notify.Notifier;
+import kz.iitu.springlab.notify.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Map;
 
 @Component
-public class ContainerReport implements CommandLineRunner {
+public class ContainerReport implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(ContainerReport.class);
-    private final ApplicationContext context;
+    private final ApplicationContext ctx;
 
-    public ContainerReport(ApplicationContext context) {
-        this.context = context;
+    public ContainerReport(ApplicationContext ctx) {
+        this.ctx = ctx;
     }
 
     @Override
-    public void run(String... args) {
-        log.info("Bean definitions in total: {}", context.getBeanDefinitionCount());
-        log.info("Notifier implementations: {}",
-                Arrays.toString(context.getBeanNamesForType(Notifier.class)));
-        log.info("Type of the notificationService bean: {}",
-                context.getBean("notificationService").getClass().getName());
+    public void run(ApplicationArguments args) {
+        log.info("================ CONTAINER REPORT ================");
 
-        Arrays.stream(context.getBeanDefinitionNames())
-                .filter(name -> name.startsWith("kz.iitu") || name.contains("Notifier"))
-                .forEach(name -> log.info(" bean: {}", name));
+        log.info("Bean definitions in total: {}", ctx.getBeanDefinitionCount());
+
+        Map<String, Notifier> notifiers = ctx.getBeansOfType(Notifier.class);
+        log.info("Notifier implementations: {}", notifiers.keySet());
+
+        Object notificationService = ctx.getBean("notificationService");
+        log.info("Type of the notificationService bean: {}", notificationService.getClass().getName());
+
+        log.info("--- Custom Beans ---");
+        String[] allBeans = ctx.getBeanDefinitionNames();
+        for (String beanName : allBeans) {
+            if (beanName.startsWith("kz.iitu") || beanName.contains("Notifier")
+                    || beanName.contains("Service") || beanName.contains("Config")
+                    || beanName.contains("Demo") || beanName.contains("Office")) {
+                log.info(" bean: {}", beanName);
+            }
+        }
+
+        log.info("==================================================");
     }
 }

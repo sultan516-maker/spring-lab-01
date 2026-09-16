@@ -18,9 +18,4 @@ public class EmailNotifier implements Notifier {
         log.info("EMAIL >> {}", message);
         return "email: " + message;
     }
-
-    @Override
-    public String channel() {
-        return "email";
-    }
 }

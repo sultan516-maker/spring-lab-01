@@ -16,9 +16,4 @@ public class ConsoleNotifier implements Notifier {
         log.info("CONSOLE >> {}", message);
         return "console: " + message;
     }
-
-    @Override
-    public String channel() {
-        return "console";
-    }
 }
