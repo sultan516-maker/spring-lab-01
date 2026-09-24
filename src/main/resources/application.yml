@@ -1,19 +1,26 @@
 spring:
   application:
     name: spring-lab
+
 server:
   port: 8080
+
 app:
   owner: Seitzhanov Sultan
-  group: IS-2301
+  group: IS-2304
   mail:
     from: no-reply@iitu.kz
     retry-count: 3
     timeout: 5s
     enabled: true
+  features:
+    beta-enabled: true
+    max-experimental-users: 25
+
 logging:
   level:
     kz.iitu: INFO
+
 management:
   endpoints:
     web:

@@ -12,12 +12,20 @@ import java.time.Duration;
 public record AppProperties(
         @NotBlank String owner,
         @NotBlank String group,
-        @Valid Mail mail
+        @Valid Mail mail,
+        @Valid Features features // <- Вариант 4
 ) {
     public record Mail(
             @NotBlank @Email String from,
             @Min(1) @Max(10) @DefaultValue("3") int retryCount,
             @DefaultValue("5s") Duration timeout,
             @DefaultValue("true") boolean enabled
+    ) {}
+
+    public record Features(
+            @DefaultValue("false") boolean betaEnabled,
+
+            @Min(0) @Max(100)
+            @DefaultValue("10") int maxExperimentalUsers
     ) {}
 }
