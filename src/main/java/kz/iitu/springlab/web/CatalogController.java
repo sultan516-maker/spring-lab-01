@@ -2,6 +2,7 @@ package kz.iitu.springlab.web;
 
 import kz.iitu.springlab.service.CatalogService;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class CatalogController {
     public String removeTwice(@PathVariable long id) {
         return catalogService.removeTwice(id);
     }
+
     @GetMapping("/item/{id}/secret")
     public String updateSecret(@PathVariable long id, @RequestParam String secret) {
         return catalogService.updateSecretKey(id, secret);
