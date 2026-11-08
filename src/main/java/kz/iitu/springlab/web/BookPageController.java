@@ -1,4 +1,3 @@
-
 package kz.iitu.springlab.web;
 
 import kz.iitu.springlab.catalog.BookService;
